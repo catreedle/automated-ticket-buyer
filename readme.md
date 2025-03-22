@@ -20,8 +20,8 @@ This script automates the process of purchasing tickets for events on a specifie
 ## Installation
 1. Clone the repository:
    ```sh
-   git clone https://github.com/your-repo.git
-   cd your-repo
+   git clone https://github.com/your-repo.git](https://github.com/catreedle/automated-ticket-buyer.git
+   cd automated-ticket-buyer
    ```
 2. Install dependencies:
    ```sh
