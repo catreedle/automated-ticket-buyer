@@ -1,0 +1,6 @@
+.env
+.venv
+accounts.json
+errors.log
+request.py
+events.json
