@@ -132,5 +132,6 @@ account_list = list(accounts.items())
 event_name = 'Aurora | This Event'
 
 # Run multiple accounts in parallel
-with ThreadPoolExecutor(max_workers=3) as executor:
-    executor.map(lambda acc: buy_ticket(acc[0], acc[1], event_name), account_list)
+def main(event_name=event_name):
+    with ThreadPoolExecutor(max_workers=3) as executor:
+        executor.map(lambda acc: buy_ticket(acc[0], acc[1], event_name), account_list)
