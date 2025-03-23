@@ -35,6 +35,7 @@ This script automates the process of purchasing tickets for events on a specifie
    CARD_CVC=123
    CARD_NAME=Your Name
    URL=https://moments-mxkp.onrender.com/
+   SOCKET_URL=wss://joyous-lark-830.convex.cloud/api/1.19.5/sync
    ```
 4. Add user credentials in `accounts.json`:
    ```json
@@ -47,7 +48,7 @@ This script automates the process of purchasing tickets for events on a specifie
 ## Usage
 Run the script:
 ```sh
-python main.py
+python cli.py
 ```
 
 ## Limitations

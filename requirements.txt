@@ -1,4 +1,6 @@
+websocket
 python-dotenv
 questionary
 selenium
 undetected-chromedriver
+rich

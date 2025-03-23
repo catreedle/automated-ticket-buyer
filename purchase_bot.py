@@ -90,7 +90,6 @@ def buy_ticket(email, password, event_name):
 
         return True  # Proceed with payment if successful
 
-
     def payment_ticket():
         email_checkout = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@name='email']")))
         email_checkout.send_keys(card_email)
@@ -132,6 +131,6 @@ account_list = list(accounts.items())
 event_name = 'Aurora | This Event'
 
 # Run multiple accounts in parallel
-def main(event_name=event_name):
+def run_purchase_bot(event_name=event_name):
     with ThreadPoolExecutor(max_workers=3) as executor:
         executor.map(lambda acc: buy_ticket(acc[0], acc[1], event_name), account_list)

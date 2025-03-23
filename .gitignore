@@ -2,6 +2,5 @@
 .venv
 accounts.json
 errors.log
-request.py
 events.json
 __pycache__
