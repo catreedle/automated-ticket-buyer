@@ -15,14 +15,14 @@ logging.basicConfig(filename="errors.log", level=logging.ERROR, format="%(asctim
 load_dotenv()  # Load environment variables from .env
 
 card_email = os.getenv("EMAIL")
-card_number = os.getenv("CARD_NUMBER")
+card_numbers = os.getenv("CARD_NUMBER").split(",")
 card_expiry = os.getenv("CARD_EXPIRY")
 card_cvc = os.getenv("CARD_CVC")
 card_name = os.getenv("CARD_NAME")
 
 url = os.getenv("URL")
 
-def buy_ticket(email, password, event_name):
+def buy_ticket(email, password, event_name, worker_index):
     driver = uc.Chrome()
     driver.get(url)
     
@@ -91,6 +91,8 @@ def buy_ticket(email, password, event_name):
         return True  # Proceed with payment if successful
 
     def payment_ticket():
+        card_number = card_numbers[worker_index] if worker_index < len(card_numbers) else card_numbers[0]
+        
         email_checkout = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@name='email']")))
         email_checkout.send_keys(card_email)
         cardNumber_checkout = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@name='cardNumber']")))
@@ -114,9 +116,15 @@ def buy_ticket(email, password, event_name):
             return  # Stop execution
 
         payment_ticket()
-        sign_out()
-        print(f"✅ Secure ticket for {email}")
+        
+        try:
+            successful_message = wait.until(EC.presence_of_element_located((By.XPATH, "//h1[contains(., 'Ticket Purchase Successful!')]")))
+            print(f"✅ Secure ticket for {email}")
+        except TimeoutException:
+            print(f"🚫 Ticket payment was unsuccessful.")
 
+        sign_out()
+        
     except Exception as e:
         logging.error(f"⚠️ Error occurred: {e}")
 
@@ -132,5 +140,5 @@ event_name = 'Aurora | This Event'
 
 # Run multiple accounts in parallel
 def run_purchase_bot(event_name=event_name):
-    with ThreadPoolExecutor(max_workers=3) as executor:
-        executor.map(lambda acc: buy_ticket(acc[0], acc[1], event_name), account_list)
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        executor.map(lambda acc: buy_ticket(acc[1][0], acc[1][1], event_name, acc[0]), enumerate(account_list))
